@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { urlById } = require('../../constants/constants');
 const { Pokemon, Type } = require('../../db');
 
 const getPokemonById = async (req, res) => {

@@ -1,9 +1,8 @@
 const axios = require('axios');
-const { generalUrl } = require('../../constants/constants');
 
 const getApiPokemons = async (req, res, next) => {
     try {
-        let pokemons1 = (await axios.get(generalUrl)).data; // Primer pedido a la API
+        let pokemons1 = (await axios.get('https://pokeapi.co/api/v2/pokemon')).data; // Primer pedido a la API
         let pokemons2 = (await axios.get(pokemons1.next)).data; // 2do pedido
         let pokemons3 = (await axios.get(pokemons2.next)).data; // Y uno masss
         let allPokemons = pokemons1.results.concat(pokemons2.results.concat(pokemons3.results)); // Concateno los resultados
