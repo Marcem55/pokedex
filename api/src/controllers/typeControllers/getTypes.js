@@ -18,8 +18,8 @@ const getTypes = async (req, res) => {
         const types = await Type.findAll();
         const totalTypes = types.map(el=> el.name);
         return res.status(200).send(totalTypes);
-      }
-}
+    }
+};
 
 module.exports = {
     getTypes

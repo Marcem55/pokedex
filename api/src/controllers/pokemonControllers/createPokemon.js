@@ -1,25 +1,37 @@
-const { Pokemon } = require("../../db");
+const { Pokemon, Type } = require("../../db");
 
 const createPokemon = async (req, res) => {
-
     try {
-        const { name, life, attack, defense, speed, height, weight,image, types } = req.body;
-
-        const createdPokemon = await Pokemon.create({
+        const {
             name,
+            image,
+            types,
             life,
             attack,
             defense,
             speed,
             height,
-            weight, 
-            image
-        });
-        await newPokemon.addTypes(types);
+            weight
+        } = req.body;
 
-        return res.status(200).json(createdPokemon);
+        const newPokemon = {
+            name,
+            image,
+            life,
+            attack,
+            defense,
+            speed,
+            height,
+            weight
+        };
+        Pokemon.create(newPokemon)
+        .then(poke => {
+            poke.addTypes(types);
+            res.status(200).json({...poke, types})
+        })
+        .catch(err => {console.log(err)});
     } catch (error) {
-        return res.status(400).json({error: 'No se pudo crear'});
+        res.status(400).json({error: 'Could not create'});
     }
 };
 

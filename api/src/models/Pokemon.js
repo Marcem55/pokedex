@@ -16,6 +16,7 @@ module.exports = (sequelize) => {
     },
     image: {
       type: DataTypes.TEXT,
+      validate: { isUrl: true},
       defaultValue: 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1567790451l/50866301._SX318_SY475_.jpg'
     },
     life: {
