@@ -1,18 +1,17 @@
 const axios = require('axios');
-const { Op } = require('sequelize');
-const { Pokemon, Type } = require('../../db');
+const { Pokemon, Type, Op } = require('../../db');
 
 const getPokemonByName = async (req, res) => {
-    const { name } = req.params; // Saco el name de query
+    const { name } = req.params; // Saco el name de params
 
     if(!name) { // Si no hay nombre
         res.status(400).json({message: 'Pokemon not found'});
     } else { // Si hay, empiezo a buscar en la base de datos
         try {
-            const searchDbPokemon = await Pokemon.findOne({
+            const searchDbPokemon = await Pokemon.findAll({
                 where: {
                     name: {
-                        [Op.like]: `%${name.toLowerCase()}%`
+                        [Op.iLike]: `%${name}%`
                     }
                 },
                 include: {
@@ -50,7 +49,7 @@ const getPokemonByName = async (req, res) => {
                 return res.status(200).json(apiPokemon);
             }
         } catch (error) {
-            res.status(400).json({message: 'Pokemon not found, please enter another name'});
+            res.status(400).json({message: 'Pokemon not found'});
         }
     }
 };
