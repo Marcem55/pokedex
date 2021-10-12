@@ -10,7 +10,7 @@ const getDbPokemons = async (req, res, next) => {
         });
         return dbPokemons;
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 

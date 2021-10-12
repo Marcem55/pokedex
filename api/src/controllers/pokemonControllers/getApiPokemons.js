@@ -37,7 +37,7 @@ const getApiPokemons = async (req, res, next) => {
         })
         .catch(error => console.log(error));
 
-        console.log(pokemonData);
+        // console.log(pokemonData);
         return res.status(200).json(pokemonData);
     } catch (error) {
         next(error);;
