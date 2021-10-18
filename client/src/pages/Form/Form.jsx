@@ -6,7 +6,7 @@ import { createPokemon, getPokemons, getTypes } from '../../actions';
 import routes from '../../helpers/routes';
 import './Form.css'
 import { toast } from 'react-toastify';
-import pokebola from '../../assets/images/pokebola.png';
+// import pokebola from '../../assets/images/pokebola.png';
 
 
 function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
@@ -115,7 +115,7 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
             <div className='form-container'>
 
             <div className="img-container">
-                <img src={pokebola} alt="Pokebola"></img>
+                <img src='' alt="Pokebola"></img>
             </div> 
 
          <form onSubmit={(e) => handleSubmit(e)}>

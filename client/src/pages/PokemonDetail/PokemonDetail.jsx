@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { getPokemonById } from '../../actions';
 import routes from '../../helpers/routes';
-import TypeStyles from '../../helpers/TypeStyles';
+import typeColors from '../../helpers/typeColors';
 import './PokemonDetail.css';
 
 
@@ -73,7 +73,7 @@ function PokemonDetail({ pokemon, getPokemonById }) {
                     </div>
 
                     <div className='Types__cardDetail'>
-                        {pokemon.types.map(e => (<div style={{ ...backType, backgroundColor: TypeStyles[e] }} >
+                        {pokemon.types.map(e => (<div style={{ ...backType, backgroundColor: typeColors[e] }} >
                             {e}
                         </div>))}
                     </div>

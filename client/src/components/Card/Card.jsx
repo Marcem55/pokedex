@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import TypeStyles from '../../helpers/TypeStyles.css';
+import typeColors from '../../helpers/typeColors';
 import './Card.css';
 
 export default function Card(props) {
@@ -48,7 +48,7 @@ export default function Card(props) {
             </div>
 
             <div className='Types__card'>
-                {types.map(e => (<div style={{...backType, backgroundColor: TypeStyles[e]}} >
+                {types.map(e => (<div style={{...backType, backgroundColor: typeColors[e]}} >
                     {e}
                 </div>))}
             </div>

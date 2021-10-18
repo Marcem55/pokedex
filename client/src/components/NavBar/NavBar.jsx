@@ -1,9 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom'
-
 import CreateForm from '../CreateForm/CreateForm';
-
-import './Navbar.css';
+import './NavBar.css';
 
 export default function Navbar() {
 
