@@ -1,141 +1,135 @@
 const initialState = {
-    pokemons: [],
-    allPokemons: [],
-    types: [],
-    detail: [],
-    pokemonBackup: 0,
-    pokeCache: [],
-    pokeNameData: [],
-    filteredPokemons: [],
-    searchBackup: false,
-  };
-  
-  function rootReducer(state = initialState, action) {
-    switch (action.type) {
-      case "GET_POKEMONS":
-        return {
-          ...state,
-          pokemons: action.payload,
-          allPokemons: action.payload,
-        };
-  
-      case "GET_NAME_POKEMONS":
-        return {
-          ...state,
-          filteredPokemons: action.payload,
-          // searchBackup: true,
-        };
-  
-      case "GET_NAME_DATA":
-        return {
-          ...state,
-          pokeNameData: action.payload,
-        };
-  
-      case "FILTER_BY_TYPE":
-        const allPokemons = state.allPokemons;
-        const filtered =
-          action.payload === "all"
-            ? allPokemons
-            : allPokemons.filter(
-                (e) =>
-                  e.types.map((el) => el.name)[0] === action.payload ||
-                  e.types.map((el) => el.name)[1] === action.payload
+  pokemons: [],
+  pokemonsCopy: [],
+  pokemon: [],
+  types: []
+};
+
+const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+      case 'GET_POKEMONS':
+          return {
+              ...state,
+              pokemons: action.data,
+              pokemonsCopy: action.data
+          }
+      case 'GET_TYPES':
+          return {
+              ...state,
+              types: action.data
+          }
+      case 'GET_DB_POKEMONS':
+          let pokemonsList = [...state.pokemonsCopy]
+          if (action.data.length === 0) {
+              return {
+                  ...state,
+                  pokemons: pokemonsList
+              }
+          } else {
+              return {
+                  ...state,
+                  pokemons: action.data
+              }
+          }
+
+      case 'GET_POKEMON_BY_NAME':
+          let pokemonsName = [...state.pokemonsCopy]
+          let resultName = pokemonsName.filter(e => e.name.includes(action.payload))
+          if (action.payload === "") {
+              return {
+                  ...state,
+                  pokemons: pokemonsName
+              }
+
+          }
+          if (resultName.length === 0) {
+              return {
+                  ...state,
+                  pokemons: pokemonsName
+              }
+          }
+          else {
+              return {
+                  ...state,
+                  pokemons: resultName
+              }
+          }
+      case 'GET_POKEMON_BY_ID':
+          return {
+              ...state,
+              pokemon: action.data
+          }
+      case 'GET_POKEMONS_BY_TYPE':
+          let pokemonsTypes = [...state.pokemonsCopy]
+          let resultType = pokemonsTypes.filter(e => e.types.includes(action.payload))
+          if (action.payload === "") {
+              return {
+                  ...state,
+                  pokemons: pokemonsTypes
+              }
+
+          }
+          if (resultType.length === 0) {
+              return {
+                  ...state,
+                  pokemons: pokemonsTypes
+              }
+          }
+          else {
+              return {
+                  ...state,
+                  pokemons: resultType
+              }
+          }
+      case 'ORDER_BY_NAME':
+          let pokemonsByName = [...state.pokemonsCopy]
+          function sortOn(arr, prop) {
+              arr.sort(
+                  function (a, b) {
+                      if (a[prop] < b[prop]) {
+                          return -1;
+                      } else if (a[prop] > b[prop]) {
+                          return 1;
+                      } else {
+                          return 0;
+                      }
+                  }
               );
-        if (filtered === 0) return alert("No Pokémons finded...");
-        return {
-          ...state,
-          filteredPokemons: filtered,
-          searchBackup: true,
-        };
-  
-      case "FILTER_CREATED":
-        const allPokemons2 = state.allPokemons;
-        const created =
-          action.payload === "created"
-            ? allPokemons2.filter((e) => e.createdInDb)
-            : allPokemons2.filter((e) => !e.createdInDb);
-        return {
-          ...state,
-          filteredPokemons: action.payload === "all" ? allPokemons2 : created,
-        };
-  
-      case "ORDER_BY_NAME":
-        let sortElement =
-          action.payload === "asc"
-            ? state.pokemons.sort((a, b) => {
-                if (a.name > b.name) return 1;
-                if (b.name > a.name) return -1;
-                return 0;
-              })
-            : state.pokemons.sort((a, b) => {
-                if (a.name > b.name) return -1;
-                if (b.name > a.name) return 1;
-                return 0;
-              });
-        return {
-          ...state,
-          pokemons: sortElement,
-        };
-  
-      case "ORDER_BY_ATTACK":
-        let sortAttack =
-          action.payload === "strong"
-            ? state.pokemons.sort((a, b) => {
-                if (a.attack > b.attack) return -1;
-                if (b.attack > a.attack) return 1;
-                return 0;
-              })
-            : state.pokemons.sort((a, b) => {
-                if (a.attack > b.attack) return 1;
-                if (b.attack > a.attack) return -1;
-                return 0;
-              });
-        return {
-          ...state,
-          pokemons: sortAttack,
-        };
-  
-      case "POST_POKEMON":
-        return {
-          ...state,
-        };
-  
-      case "GET_TYPES":
-        return {
-          ...state,
-          types: action.payload,
-        };
-  
-      case "GET_DETAILS":
-        return {
-          ...state,
-          detail: action.payload,
-        };
-  
-      case "GET_INITIAL_STATE":
-        return {
-          ...state,
-          detail: [],
-          filteredPokemons: [],
-          pokeNameData: [],
-        };
-  
-      case "GET_PAGINATE":
-        return {
-          ...state,
-          pokemonBackup: action.payload,
-        };
-  
-      case "CACHE_API":
-        return {
-          ...state,
-          pokeCache: action.payload,
-        };
-  
+          }
+          sortOn(pokemonsByName, "name");
+          if (action.payload === "ascendent") {
+              return {
+                  ...state,
+                  pokemons: pokemonsByName
+              }
+          } else if (action.payload === "descendent") {
+              return {
+                  ...state,
+                  pokemons: pokemonsByName.reverse()
+              }
+          }
+      case 'ORDER_BY_FORCE':
+          let pokemonsByForce = [...state.pokemonsCopy]
+          sortOn(pokemonsByForce, "attack");
+          if (action.payload === "ascendent") {
+              return {
+                  ...state,
+                  pokemons: pokemonsByForce
+              }
+          } else if (action.payload === "descendent") {
+              return {
+                  ...state,
+                  pokemons: pokemonsByForce.reverse()
+              }
+          }
+      case 'CREATE_POKEMON':
+          return {
+              ...state,
+              pokemons: state.pokemons.push(action.payload)
+          }
       default:
-        return state;
-    }
+          return state;
   }
-  
-  export default rootReducer;
+}
+
+export default rootReducer;

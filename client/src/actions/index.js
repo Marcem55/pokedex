@@ -1,150 +1,98 @@
-import axios from 'axios'
+import axios from 'axios';
 
-export const getPokemons= () => {
-  return async function(dispatch) {
-    try {
-      const resURL= await axios.get('http://localhost:3001/pokemons',{
-        timeout: 90000,
-      })
-      return dispatch({
-        type: 'GET_POKEMONS',
-        payload: resURL.data,
-      })
-    } catch(error) {
-      console.log(error)
+export function getPokemons() {
+    return async function (dispatch) {
+        try {
+            const apiPok = await axios.get('http://localhost:3001/pokemons/all');
+            const pokemonList = apiPok.data;
+            return dispatch({
+                type: 'GET_POKEMONS',
+                data: pokemonList
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
-  }
-}
+};
 
-export const getTypes= ()=> {
-  return async function(dispatch) {
-    try {
-      const  infoURL= await axios('http://localhost:3001/types', {
-        timeout: 90000,
-      })
-      return dispatch({
-        type:'GET_TYPES',
-        payload: infoURL.data,
-      })
-    } catch (error) {
-      console.log(error)
+export function getDbPokemons() {
+    return async function (dispatch) {
+        try {
+            const pokemons = await axios.get('http://localhost:3001/pokemons/db');
+            return dispatch({
+                type: 'GET_DB_POKEMONS',
+                data: pokemons.data
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
-  }
-}
+};
 
-export const postPokemon= (payload)=> {
-  return async function() {
-    try {
-      const postURL= await axios.post('http://localhost:3001/pokemons', payload)
-      console.log(postURL)
-      return postURL
-    } catch (error) {
-      console.log(error)
+export function getPokemonById(id) {
+    return async function (dispatch) {
+        try {
+            const result = await axios.get(`http://localhost:3001/pokemons/${id}`);
+            return dispatch({
+                type: 'GET_POKEMON_BY_ID',
+                data: result.data,
+                payload: id
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
-  }
-}
+};
 
-export const getName= (name)=> {
-  return async function(dispatch) {
-    try {
-      let pokeName= []
-      const nameURL= await axios.get(`http://localhost:3001/pokemons?name=${name}`)
-      console.log('Respuesta es' , nameURL.data)
-      // let info= nameURL.data.error ? pokeName : pokeName.push(nameURL.data)
-      let info;
-      if(nameURL.data.error) {
-        info= pokeName;
-      }else {
-        pokeName.push(nameURL.data)
-        info= pokeName;
-      }
-      
-      return dispatch({
-        type: 'GET_NAME_POKEMONS',
-        payload: info,
-      })
-    } catch (error) {
-      
+export function getPokemonByName(name) {
+    return {
+        type: 'GET_POKEMON_BY_NAME',
+        payload: name
     }
-  }
-}
+};
 
-export const getDetail= (id)=> {
-  return async function(dispatch) {
-    try {
-      const getDetail= await axios.get(`http://localhost:3001/pokemons/${id}`, {
-        timeout:90000,
-      })
-      return dispatch({
-        type: 'GET_DETAILS',
-        payload: getDetail.data
-      })
-    } catch (error) {
-      console.log(error)
+export function getPokemonsByType(type) {
+    return {
+        type: 'GET_POKEMONS_BY_TYPE',
+        payload: type
     }
-  }
-}
+};
 
-export const getNameData= (name) => {
-  return async function(dispatch) {
-    try {
-      const getUrl= await axios.get(`http://localhost:3001/pokemons/search/${name}`, {
-        timeout:90000,
-      })
-      return dispatch({
-        type: 'GET_NAME_DATA',
-        payload: getUrl.data
-      })
-    } catch (error) {
-      console.log(error)
+export function getTypes() {
+    return async function (dispatch) {
+        try {
+            const results = await axios.get('http://localhost:3001/types');
+            return dispatch({
+                type: 'GET_TYPES',
+                data: results.data
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
-  }
-}
+};
 
-export const filterByType= (payload)=> {
-  return {
-    type: 'FILTER_BY_TYPE',
-    payload
-  }
-}
+export function createPokemon(data) {
+    return async function (dispatch) {
+        const newPokemon = await axios.post('http://localhost:3001/pokemons', data)
+        return dispatch({
+            type: 'CREATE_POKEMON',
+            data: newPokemon,
+            payload: data
+        })
+    }
+};
 
-export const filterCreated= (payload)=> {
-  return {
-    type: 'FILTER_CREATED',
-    payload
-  }
-}
+export function orderByName(order) {
+    return {
+        type: 'ORDER_BY_NAME',
+        payload: order
+    }
+};
 
-export const orderByName= (payload)=> {
-  return {
-    type:'ORDER_BY_NAME',
-    payload
-  }
-}
-
-export const orderByAttack= (payload)=> {
-  return {
-    type: 'ORDER_BY_ATTACK',
-    payload
-  }
-}
-
-export const getInitialState= () => {
-  return {
-    type: 'GET_INITIAL_STATE',
-  }
-}
-
-export const getPaginate= (payload)=> {
-  return {
-    type: 'GET_PAGINATE',
-    payload
-  }
-}
-
-export const cacheAPI=(payload)=> {
-  return {
-    type: 'CACHE_API',
-    payload
-  }
-}
+export function orderByForce(order) {
+    return {
+        type: 'ORDER_BY_FORCE',
+        payload: order
+    }
+};
