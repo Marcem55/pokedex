@@ -108,6 +108,7 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
     useEffect(() => {
         getPokemons();
         getTypes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, []);
 
     return (
@@ -185,7 +186,7 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
 
                     <div className="btn-container">
                         <button type="submit">Create</button>
-                        <Link to to={routes.home}>
+                        <Link to={routes.home}>
                             <button >Regresar</button>
                         </Link>
                     </div>

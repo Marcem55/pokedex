@@ -108,6 +108,7 @@ const rootReducer = (state = initialState, action) => {
                   pokemons: pokemonsByName.reverse()
               }
           }
+          break;
       case 'ORDER_BY_FORCE':
           let pokemonsByForce = [...state.pokemonsCopy]
           sortOn(pokemonsByForce, "attack");
@@ -122,6 +123,7 @@ const rootReducer = (state = initialState, action) => {
                   pokemons: pokemonsByForce.reverse()
               }
           }
+          break;
       case 'CREATE_POKEMON':
           return {
               ...state,

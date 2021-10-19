@@ -19,9 +19,9 @@ function Home({ getPokemons, pokemons }) {
             await getPokemons();
             setLoading(false)
         }
-
+        
         getData();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

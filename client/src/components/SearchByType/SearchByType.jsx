@@ -60,8 +60,8 @@ function SearchBy({ getPokemonsByType, types, getTypes, pokemons }) {
             await getTypes()
         }
 
-        gettingTypes()
-
+        gettingTypes() 
+        // eslint-disable-next-line react-hooks/exhaustive-deps        
     }, [])
 
     return (

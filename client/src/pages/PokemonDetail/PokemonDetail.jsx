@@ -33,7 +33,7 @@ function PokemonDetail({ pokemon, getPokemonById }) {
         }
 
         getPokemon();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, []);
 
     return (
