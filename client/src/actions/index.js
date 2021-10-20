@@ -1,98 +1,92 @@
 import axios from 'axios';
 
-export function getPokemons() {
-    return async function (dispatch) {
+export const GET_POKEMONS = 'GET_POKEMONS';
+export const GET_TYPE = 'GET_TYPE';
+export const POKEMON_FILTER_TYPE = 'POKEMON_FILTER_TYPE';
+export const GET_POKEMON_DETAIL = 'GET_POKEMON_DETAIL';
+export const GET_POKEMON_BY_NAME = 'GET_POKEMON_BY_NAME';
+
+export const getPokemons = () => {
+    return async (dispatch) => {
         try {
-            const apiPok = await axios.get('http://localhost:3001/pokemons/all');
-            const pokemonList = apiPok.data;
+            const allPokemons = await axios.get("http://localhost:3001/pokemons"); // Hago el request a mi back
             return dispatch({
-                type: 'GET_POKEMONS',
-                data: pokemonList
+                type: GET_POKEMONS,
+                payload: allPokemons.data
             })
-        } catch (err) {
-            console.log(err)
+        } catch (error) {
+            console.log(error)
         }
     }
 };
 
-export function getDbPokemons() {
-    return async function (dispatch) {
+export const getPokemonsTypes = () => {
+    return async (dispatch) => {
         try {
-            const pokemons = await axios.get('http://localhost:3001/pokemons/db');
+            const pokemonsTypes = await axios.get("http://localhost:3001/types");
             return dispatch({
-                type: 'GET_DB_POKEMONS',
-                data: pokemons.data
+                type: GET_TYPE,
+                payload: pokemonsTypes.data
             })
-        } catch (err) {
-            console.log(err)
+        } catch (error) {
+            console.log(error)
         }
     }
 };
 
-export function getPokemonById(id) {
-    return async function (dispatch) {
-        try {
-            const result = await axios.get(`http://localhost:3001/pokemons/${id}`);
-            return dispatch({
-                type: 'GET_POKEMON_BY_ID',
-                data: result.data,
-                payload: id
-            })
-        } catch (err) {
-            console.log(err)
-        }
-    }
-};
-
-export function getPokemonByName(name) {
-    return {
-        type: 'GET_POKEMON_BY_NAME',
-        payload: name
-    }
-};
-
-export function getPokemonsByType(type) {
-    return {
-        type: 'GET_POKEMONS_BY_TYPE',
-        payload: type
-    }
-};
-
-export function getTypes() {
-    return async function (dispatch) {
-        try {
-            const results = await axios.get('http://localhost:3001/types');
-            return dispatch({
-                type: 'GET_TYPES',
-                data: results.data
-            })
-        } catch (err) {
-            console.log(err)
-        }
-    }
-};
-
-export function createPokemon(data) {
-    return async function (dispatch) {
-        const newPokemon = await axios.post('http://localhost:3001/pokemons', data)
-        return dispatch({
-            type: 'CREATE_POKEMON',
-            data: newPokemon,
-            payload: data
+export const filterType = (type) => {
+    return async (dispatch) =>
+        dispatch({ 
+            type: POKEMON_FILTER_TYPE, 
+            payload: type 
         })
+};
+
+export const getPokemonDetail = (id) => {
+    return async (dispatch) => {
+        try {
+            const pokemonDetail = await axios(`http://localhost:3001/pokemons/${id}`);
+            return dispatch({
+                type: GET_POKEMON_DETAIL,
+                payload: pokemonDetail.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 };
 
-export function orderByName(order) {
-    return {
-        type: 'ORDER_BY_NAME',
-        payload: order
+export const getPokemonByName = (name) => {
+    return async (dispatch) => {
+        try {
+            const pokemonName = await axios(`http://localhost:3001/pokemons?name=${name}`);
+            return dispatch({
+                type: GET_POKEMON_BY_NAME,
+                payload: pokemonName.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 };
 
-export function orderByForce(order) {
-    return {
-        type: 'ORDER_BY_FORCE',
-        payload: order
+export const addPokemon = (newPoke) => {
+    return async () => {
+        try {
+            const objNewPoke = {
+                name: newPoke.name,
+                life: newPoke.life,
+                attack: newPoke.attack,
+                defense: newPoke.defense,
+                speed: newPoke.speed,
+                weight: newPoke.weight,
+                height: newPoke.height,
+                types: [newPoke.type1, newPoke.type2],
+            }
+            const createPoke = await axios.post("http://localhost:3001/pokemons", objNewPoke);
+            return console.log(createPoke.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
 };
