@@ -1,25 +1,50 @@
 const { Router } = require('express');
-const { getPokemonById, createPokemon, getPokemons, getPokemonsByName, getDbPokemons, getApiPokemons } = require('../controllers/pokemonControllers');
+const { getAllPokemons, getPokemonById, getPokemonByName, createPokemon } = require('../controllers/pokemonControllers');
 
 const router = Router();
 
-// get all pokemons (API + DB) filter pokemon name, types and image
-router.get('/all', getPokemons);
+// getAllPokemons & getPokemonsByName
+router.get('/', async (req, res) => {
+    try {
+        const { name } = req.query;
+        if(!name) {
+            return res.status(200).send(await getAllPokemons());
+        } else {
+            const pokeByName = await getPokemonByName(name);
+            if(pokeByName) {
+                return res.status(200).json(pokeByName);
+            }
+        }
+    } catch (error) {
+        console.log('error');
+        return res.status(400).send('Pokemon not found');
+    }
+});
 
-// get pokemons from DB
-router.get('/db', getDbPokemons);
+// getPokemonById
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pokeById = await getPokemonById(id);
+        if(pokeById) {
+            return res.status(200).json(pokeById);
+        }
+    } catch (error) {
+        console.log('error');
+        return res.status(400).send('Pokemon not found');
+    }
+});
 
-// get pokemons from API
-router.get('/api', getApiPokemons);
-
-// find by name
-router.get('/', getPokemonsByName);
-
-// find by id
-router.get('/:id', getPokemonById);
-
-// create a new Pokemon in DB
-router.post('/', createPokemon);
-
+// createPokemon
+router.post('/', async (req, res) => {
+    try {
+        const newPoke = req.body;
+        await createPokemon(newPoke);
+        return res.status(200).send('Successfully created pokemon')
+    } catch (error) {
+        console.log('error');
+        res.status(400).send("Can't create pokemon")
+    }
+});
 
 module.exports = router;
