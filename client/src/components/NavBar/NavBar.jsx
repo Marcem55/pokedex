@@ -1,37 +1,28 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom'
-import CreateForm from '../CreateForm/CreateForm';
+import {useDispatch} from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getPokemons } from '../../actions';
 import './NavBar.css';
 
-export default function Navbar() {
-
-    let useLoc = useLocation();
-    let path = useLoc.pathname
-
+export const NavBar = () => {
+    const dispatch = useDispatch();
     return (
-
-        <div className="Navbar">
-            <div></div>
-            <div className="title__container">
-                <h2>{path === "/form" ? "CREATE POKEMON" : "POKEMON APP"}</h2>
+        <header className='navBar'>
+            <div className='return'>
+                <Link to={'/landing'}><p>Go to Landing</p></Link>
             </div>
-            {path === "/form"
-
-                ?
-
-                <div> </div>
-
-                :
-
-                <div className="btn__create__container">
-                    <CreateForm />
-                </div>
-
-            }
-
-        </div>
-
-
-
+            <div>
+                <Link to={'/home'}>
+                    <button className='homeButton' onClick={() =>dispatch(getPokemons())}>
+                    <p>Pokehome</p>
+                    </button>
+                </Link>
+            </div>
+            <div>
+                <button className='createBtn'>
+                    <p>Createmon</p>
+                </button>
+            </div>
+        </header>
     )
 }

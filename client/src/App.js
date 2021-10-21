@@ -1,18 +1,21 @@
 // import './App.css';
-import { BrowserRouter as Router } from 'react-router-dom';
-import AppRouter from './routers/AppRouter';
+import { Route, Switch, Redirect } from 'react-router';
 import Navbar from './components/NavBar/NavBar';
-import {ToastContainer} from 'react-toastify';
+import Landing from './pages/Landing/Landing';
 
 export default function App() {
-
   return (
     <div className="App">
-      <Router>
-        <Navbar />
-        <ToastContainer />
-        <AppRouter />
-      </Router>
+      <Switch>
+        <Route exact path = "/" component={Landing}/>
+        <Route exact path = "/landing" component={Landing}/>
+        <Route exact path = "/home" component={Home}/>
+        <Route exact path = "/detail/:id" component={PokemonDetail}/>
+        <Route exact path = "/create" component={PokemonCreate}/>
+        <Route exact path = "/notFound" component={NotFound}/>
+        <Redirect from='*' to='/notFound'/>
+      </Switch>
+      
     </div>
   );
-};
+}

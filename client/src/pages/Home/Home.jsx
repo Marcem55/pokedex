@@ -1,69 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { getPokemons } from '../../actions/index';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import { getPokemons } from '../actions';
+import { NavBar } from '../components/NavBar/NavBar';
+import { Pokedex } from '../components/Pokedex/Pokedex';
+import Loader from '../components/Loader/Loader'
 
-import SearchByName from '../../components/SearchByName/SearchByName';
-import SearchByType from '../../components/SearchByType/SearchByType';
-import Pagination from '../../components/Pagination/Pagination';
-import Loading from '../../components/Loading/Loading';
+export const Home = () => {
+    const dispatch = useDispatch();
+    const allPokes = useSelector(state => state.allPokemons)
 
-import './Home.css';
-
-function Home({ getPokemons, pokemons }) {
-
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-
-        const getData = async () => {
-            await getPokemons();
-            setLoading(false)
-        }
-        
-        getData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    useEffect( () => {
+        dispatch(getPokemons())
+    }, [dispatch]);
 
     return (
-        <div className='home-container'>
-
-            <div className="options-container">
-                <SearchByName />
-                <SearchByType />
-            </div>
-
-            <div className="render__container">
-                {loading === true || pokemons[0] === null || pokemons.length === 0
-
-                    ?
-     
-                    <div className="loading__container">
-                          <Loading />
-                    </div>   
-                  
-
-                    :
-
-                    <Pagination />
-                }
-            </div>
-
-
+        <div>
+            <NavBar />
+            {allPokes.length > 0 ? <Pokedex allPokes={allPokes}/> : <Loader/>}
         </div>
     )
-}
-
-const mapStateToProps = (state) => {
-    return {
-        pokemons: state.pokemons
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        getPokemons: () => dispatch(getPokemons()),
-    }
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
