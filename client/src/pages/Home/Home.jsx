@@ -7,7 +7,7 @@ import Loader from '../components/Loader/Loader'
 
 export const Home = () => {
     const dispatch = useDispatch();
-    const allPokes = useSelector(state => state.allPokemons)
+    const allPokes = useSelector(state => state.allPokemons);
 
     useEffect( () => {
         dispatch(getPokemons())

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
-import { orderByForce, orderByName } from '../../actions';
+import { orderByForce, orderByName } from '../../actions/index';
 import './OrderBy.css';
 
-function OrderBy({ orderByForce, orderByName }) {
+export const OrderBy = ({ orderByForce, orderByName }) => {
+
+    const dispatch = useDispatch();
+    const allPokes = useSelector(state => state.allPokemons);
 
     const [orderName, setOrderName] = useState("ascendent");
     const [orderForce, setOrderForce] = useState("ascendent");
@@ -23,34 +27,29 @@ function OrderBy({ orderByForce, orderByName }) {
     }
 
     const getByForce = async (e) => {
-
         e.preventDefault();
-
         await orderByForce(orderForce);
-
-
         if (orderForce === "ascendent") {
             setOrderForce("descendent")
         }
         if (orderForce === "descendent") {
             setOrderForce("ascendent")
         }
-
     }
 
     return (
-        <div className='orderby-container'>
+        <div className='order-container'>
             <button onClick={(e) => getByName(e)}>Order By Name</button>
             <button onClick={(e) => getByForce(e)}>Order By Force</button>
         </div>
     )
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        orderByForce: (order) => dispatch(orderByForce(order)),
-        orderByName: (order) => dispatch(orderByName(order))
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         orderByForce: (order) => dispatch(orderByForce(order)),
+//         orderByName: (order) => dispatch(orderByName(order))
+//     }
+// }
 
-export default connect(null, mapDispatchToProps)(OrderBy);
+// export default connect(null, mapDispatchToProps)(OrderBy);
