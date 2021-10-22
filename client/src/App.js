@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Home from "./components/Home/Home";
 import CreateForm from "./components/CreateForm/CreateForm";
@@ -10,7 +10,7 @@ export default function App() {
       <Switch>
         <Route exact path= '/' component={LandingPage}/>
         <Route path= '/home' component={Home}/>
-        <Route exact path= '/addpokemon' component={CreateForm}/>
+        <Route exact path= '/create' component={CreateForm}/>
         <Route exact path= '/pokemon/:id' component={PokemonDetail}/>
       </Switch>
     </div>
