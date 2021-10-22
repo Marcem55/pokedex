@@ -62,7 +62,7 @@ export const getPokemonDetail = (id) => {
 export const getPokemonByName = (name) => {
     return async (dispatch) => {
         try {
-            const pokemonName = await axios(`http://localhost:3001/pokemons?name=${name}`);
+            const pokemonName = await axios(`http://localhost:3001/pokemon?name=${name}`);
             return dispatch({
                 type: GET_POKEMON_BY_NAME,
                 payload: pokemonName.data
@@ -76,18 +76,18 @@ export const getPokemonByName = (name) => {
 export const addPokemon = (newPoke) => {
     return async () => {
         try {
-            const objNewPoke = {
-                name: newPoke.name,
-                life: newPoke.life,
-                attack: newPoke.attack,
-                defense: newPoke.defense,
-                speed: newPoke.speed,
-                weight: newPoke.weight,
-                height: newPoke.height,
-                types: [newPoke.type1, newPoke.type2],
-            }
-            const createdPoke = await axios.post("http://localhost:3001/pokemons", objNewPoke);
-            return console.log(createdPoke.data);
+            // const objNewPoke = {
+            //     name: newPoke.name,
+            //     life: newPoke.life,
+            //     attack: newPoke.attack,
+            //     defense: newPoke.defense,
+            //     speed: newPoke.speed,
+            //     weight: newPoke.weight,
+            //     height: newPoke.height,
+            //     types: [newPoke.type1, newPoke.type2],
+            // }
+            const createdPoke = await axios.post("http://localhost:3001/pokemons", newPoke);
+            return createdPoke;
         } catch (error) {
             console.log(error)
         }

@@ -1,23 +1,18 @@
-// import './App.css';
-import { Route, Switch, Redirect } from 'react-router';
-import { Landing } from './pages/Landing/Landing';
-import { Home } from './pages/Home/Home';
-import { PokemonDetail } from './pages/PokemonDetail/PokemonDetail';
-import { Form } from './pages/Form/Form';
-import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import LandingPage from "./components/LandingPage/LandingPage";
+import Home from "./components/Home/Home";
+import CreateForm from "./components/CreateForm/CreateForm";
+import PokemonDetail from "./components/PokemonDetail/PokemonDetail";
 
 export default function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <Switch>
-        <Route exact path = "/" component={Landing}/>
-        <Route exact path = "/landing" component={Landing}/>
-        <Route exact path = "/home" component={Home}/>
-        <Route exact path = "/detail/:id" component={PokemonDetail}/>
-        <Route exact path = "/create" component={Form}/>
-        <Route exact path = "/notFound" component={NotFound}/>
-        <Redirect from='*' to='/notFound'/>
+        <Route exact path= '/' component={LandingPage}/>
+        <Route path= '/home' component={Home}/>
+        <Route exact path= '/addpokemon' component={CreateForm}/>
+        <Route exact path= '/pokemon/:id' component={PokemonDetail}/>
       </Switch>
     </div>
-  );
-}
+  )
+};

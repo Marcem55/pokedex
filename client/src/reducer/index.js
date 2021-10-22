@@ -1,10 +1,10 @@
-import { GET_POKEMONS, GET_TYPE, POKEMON_FILTER_TYPE, GET_POKEMON_DETAIL, GET_POKEMON_BY_NAME, IS_CREATED, ORDER_BY_NAME, ORDER_BY_FORCE } from "../actions";
+import { GET_POKEMONS, GET_TYPE, POKEMON_FILTER_TYPE, GET_POKEMON_DETAIL, GET_POKEMON_BY_NAME, IS_CREATED, ORDER_BY_NAME, ORDER_BY_FORCE } from "../actions/index";
 
 const initialState = {
 	allPokemons: [],
+	pokemonsFilter: [],
 	pokemonDetail: [],
 	pokemonsTypes: [],
-	pokemonsFilter: [],
 };
 
 export const rootReducer = (state = initialState, action) => {
@@ -35,8 +35,8 @@ export const rootReducer = (state = initialState, action) => {
 			let pokemons = state.allPokemons;
 			let filteredPokemons = action.payload === 'All' 
 			? pokemons
-			: allPokemons.filter(t => {
-				return e.types?.includes(action.payload)
+			: pokemons.filter(t => {
+				return t.types?.includes(action.payload)
 			});
 			return {
 				...state,
@@ -76,7 +76,7 @@ export const rootReducer = (state = initialState, action) => {
 			};
 		case IS_CREATED:
 			let createdPokemons = state.allPokemons;
-			let filteredPokemons = action.payload === 'created'
+			let pokemonsFiltered = action.payload === 'created'
 			? createdPokemons.filter(p => p.createInDb)
 			: createdPokemons.filter(p => !p.createInDb);
 			return action.payload === 'all'
@@ -85,7 +85,11 @@ export const rootReducer = (state = initialState, action) => {
 				pokemonsFilter: createdPokemons
 			}
 			: {...state, 
-				pokemonsFilter: filteredPokemons
+				pokemonsFilter: pokemonsFiltered
+			};
+		case "POST_POKEMON": //back por body
+			return {
+				...state,
 			};
 		default:
 			return state;
