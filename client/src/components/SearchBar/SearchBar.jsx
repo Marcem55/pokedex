@@ -59,7 +59,7 @@ export default function SearchBar({setCurrentPage}) {
                     {
                         pokemon && 
                         <Link to={`/${pokemon.id}`}>
-                        <img src={pokemon.img} alt={pokemon.name} width='20px'/>
+                        <img src={pokemon.image} alt={pokemon.name} width='20px'/>
                         <span onClick={e => dispatch(cleanSearchResult)}> {pokemon.name}</span>
                         </Link>
                     }
@@ -114,7 +114,7 @@ export default function SearchBar({setCurrentPage}) {
                     onClick={(e) => {dispatch({type:"CLEAN_FILTERS"}); setCurrentPage(1);}} />
                 </form>
                 <hr />
-                <img src={pokeball} alt="pokeball" width='100px'/>
+                {/* <img src={pokeball} alt="pokeball" width='100px'/> */}
             </div>
         </div>
     )

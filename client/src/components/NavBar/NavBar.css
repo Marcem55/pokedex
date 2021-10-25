@@ -1,0 +1,15 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+
+.createLink {
+    background-color: transparent;
+    padding: 1rem;
+    cursor: pointer;
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+}

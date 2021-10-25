@@ -27,6 +27,9 @@ export default function Home() {
     const current = pokemons.slice(indexFirst, indexLast);
     const changePage = (pages) => setCurrentPage(pages);
 
+    // console.log(pokemons);
+    // console.log(current);
+
     return (
         <>
         <div className='home'>
@@ -40,13 +43,13 @@ export default function Home() {
                     :
                     <>
                     <div className='showall'>
-                    {current.map(({id, name, types, img}) => 
+                    {current.map(({id, name, types, image}) => 
                         <Card
                             key={id}
                             id={id}
                             name={name}
                             types={types}
-                            img={img}/>
+                            image={image}/>
                             )}
                     </div>
                     <Pagination 

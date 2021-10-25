@@ -33,7 +33,7 @@ export default function PokemonDetail ({id}) {
             <div>
                 <div id='details_container'>
                     <div id='details_main'>
-                        <img src={found.img} alt={found.name} id='details_img'/>
+                        <img src={found.image} alt={found.name} id='details_img'/>
                         <h1>{found.name}</h1>
                         Type<h3>{found.types}</h3>
                     </div>

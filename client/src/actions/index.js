@@ -7,10 +7,10 @@ export function fetchApi () {
             let items = data.map(e => {
                 return {
                     id: e.id,
-                    img: e.img,
                     name: e.name,
+                    image: e.image,
+                    types: e.types.join(' '),
                     attack: e.attack,
-                    types: e.types.join(' ')
                 }
             })
             dispatch({type: "ADD_ITEMS", payload: items})

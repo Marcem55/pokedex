@@ -13,7 +13,9 @@ export default function NavBar() {
                 alt='imagen'
                 width='180px'/>
             </Link>
-            <Link to='/create'><p id='p'>Create new!</p></Link>
+            <Link to='/create'>
+                <button className='createLink'>Create new!</button>
+            </Link>
         </div>
     )
 };
