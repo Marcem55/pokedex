@@ -1,32 +1,24 @@
-import React from 'react';
-import { setPage } from '../../actions/index';
-import { useDispatch } from 'react-redux';
-import './Pagination.css';
+import React from "react";
+import "./paginado.css"
 
-export default function Pagination({ pokemonsPerPage, allPokemons}) {
-    const pageNumbers = [];
-    const dispatch = useDispatch();
-    for (let i = 1; i <= Math.ceil(allPokemons / pokemonsPerPage); i++) {
-        pageNumbers.push(i)
+export default function Paginado ({pokemonsPerPage,allpokemon, paginado}){
+    const pageNumbers = []
+
+    for(var i = 1; i<=Math.ceil(allpokemon/pokemonsPerPage);i++){ 
+        pageNumbers.push(i);
     }
-
-    function handleOnPage(p) {
-        dispatch(setPage(p))
-    }
-
-    return (
-        <footer className='footer'>
-            <div className='Pages'>
-                {
-                    pageNumbers && pageNumbers.map(p => {
-                        return (
-                            <div>
-                                <button className='Page' onClick={() => handleOnPage(p)} >{p}</button>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-        </footer>
+    return( 
+        
+        <nav className='navpage'>
+            <ul className='paginado'> 
+                {pageNumbers && pageNumbers.map(number=> (
+                    <li className='number' key={number}>
+                    <a href onClick={(e) => paginado(number)}>
+                        {number}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
     )
-};
+}

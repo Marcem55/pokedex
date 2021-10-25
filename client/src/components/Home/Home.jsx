@@ -1,109 +1,149 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPokemons, orderPokemonsByName, orderPokemonsByForce } from '../../actions/index';
-import { Link } from 'react-router-dom';
-import Card from '../Card/Card';
-import NavBar from '../NavBar/NavBar';
-import Sidebar from '../Sidebar/SideBar';
-import Pagination from '../Pagination/Pagination';
-import PokemonDetail from '../PokemonDetail/PokemonDetail';
-import './Home.css';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import { getPokemon, filterByType, sort_AZ, sort_by_attack, isCreated } from '../actions';
+import {Link} from "react-router-dom";
+import Card from './card';
+import Paginado from './paginado';
+import SearchBar from './searchBar.jsx';
+import './home.css'
 
-export default function Home() {
-    const dispatch = useDispatch();
-    const allPokemons = useSelector((state) => state.allPokemons);
-    const popupState = useSelector((state) => state.popup);
-    const allTypes = useSelector((state) => state.pokemonsTypes);
+
+export default function Home(){
+    const dispatch = useDispatch() 
+    const allpokemon = useSelector((state) => state.typesPok)
+    // console.log(allpokemon, "allP")
+    //definir estados locales:
+    const [currentPage,setCurrentPage] = useState(1) 
+    // eslint-disable-next-line no-unused-vars
+    const [pokemonsPerPage, setPokemonPerPage]= useState(9)
+    const indicexOfLastPokemon = currentPage * pokemonsPerPage
+    const indicexOfFirstPokemon = indicexOfLastPokemon - pokemonsPerPage 
+   const currentPokemons= allpokemon.slice(indicexOfFirstPokemon,indicexOfLastPokemon) 
+
+
+    const paginado =  (pageNumber) =>{ 
+ setCurrentPage(pageNumber)
+    }
+
+    useEffect(()=>{ 
+dispatch(getPokemon())
+    },[dispatch]) 
+
+
+ function handleClick(e){
+     e.preventDefault();
+    console.log('entre!!!')
+dispatch(getPokemon())
+ }
+ function handleFilterType(e){
+     e.preventDefault(); 
+     //console.log(e.target.value,"******************** EVENT TARGET VALUE")
+     dispatch(filterByType(e.target.value))
+ } 
+
+ function handleSort(e){
+     e.preventDefault();
+
+     dispatch(sort_AZ(e.target.value))
+ } 
+
+ function handleAttack(e){
+     e.preventDefault()
+     dispatch(sort_by_attack(e.target.value))
+ } 
+ 
+ function handleCreate(e){
+     e.preventDefault()
+     dispatch(isCreated(e.target.value))
+ } 
+
+return (
+    <body className="pageHome">
+    <div> 
+        
+            <div className="divsearch">
+            <SearchBar>
+            </SearchBar>
+            </div> 
+    <a href="/pokemon" class="myButton">Crear Pokemon</a>
+            <button className='cargar' onClick={e => {handleClick(e)}}>
+                Volver a cargar todos los personajes
+            </button>
+                {/* <Link to= '/pokemon'>
+                    <button class="crear" >Crear Personaje</button>
+                    </Link>  */}
+   
     
-    const currentPage = useSelector((state) => state.page);
-    const pokemonsPerPage = 9;
-    const lastPokemonIndex = currentPage * pokemonsPerPage;
-    const firstPokemonIndex = lastPokemonIndex - pokemonsPerPage;
-    const currentPokemons = Array.isArray(allPokemons) ? allPokemons.slice(firstPokemonIndex, lastPokemonIndex) : [allPokemons];
+        <h1 className="h1pokemon">-POKEMON-</h1>
+        
+            <select className="az" onChange={e=>handleSort(e)}>
+                <option value='az'>AZ</option>
+                <option value='za'>ZA</option>
+            </select>
+        
+            <select className="created" onChange={e=>handleCreate(e)}>
+                <option value='all'>All</option>
+                <option value='created'>Created</option>
+                <option value='existent'>Existent</option>
+            </select>
 
 
+            <select className="fuerza" onChange= {e=>{handleAttack(e)}} >
+                <option value='All'>All</option>
+                <option value='strong'>Ascendente fuerza</option>
+                <option value='weak'>Descendente fuerza</option>
+            </select>
+        
 
-    useEffect(() => {
-        dispatch(getPokemons());
-    }, [dispatch]);
+            <select className="all" onChange={e=> {handleFilterType(e)}}>
+            <option value='All'>All</option>
+                <option value='Normal'>Normal</option>
+                <option value='Fighting'>Fighting</option>
+                <option value='Flying'>Flying</option>
+                <option value='Poison'>Poison</option>
+                <option value='Ground'>Ground</option>
+                <option value='Bug'>Bug</option>
+                <option value='Rock'>Rock</option>
+                <option value='Ghost'>Ghost</option>
+                <option value='Steele'>Steele</option>
+                <option value='Fire'>Fire</option>
+                <option value='Water'>Water</option>
+                <option value='Grass'>Grass</option>
+                <option value='Electric'>Electric</option>
+                <option value='Psychic'>Psychic</option>
+                <option value='Ice'>Ice</option>
+                <option value='Dragon'>Dragon</option>
+                <option value='Dark'>Dark</option>
+                <option value='Fairy'>Fairy</option>
+                <option value='Unknown'>Unknown</option>
+                <option value='Shadow'>Shadow</option>
+            </select>
 
-    function handleOrderByName(e) {
-        dispatch(orderPokemonsByName(e.target.value));
-    }
-
-    function handleOrderByForce(e) {
-        dispatch(orderPokemonsByForce(e.target.value));
-    }
-
-    return (
-        <div>
-            {currentPokemons.length > 0 || allTypes.length > 0 ? (
-                <div>
-                    <NavBar />
-                    <div id='main' className='MainDiv'>
-                        <Sidebar />
-                        <div className='fixPages'>
-                            <div className='selectHome' >
-                                <select onChange={e => handleOrderByName(e)} className='Font'>
-                                    <option value="" selected disabled hidden>Sort</option>
-                                    <option className='optionsHome' value="alpha-Asc">A-Z</option>
-                                    <option className='optionsHome' value="alpha-Desc">Z-A</option>
-                                </select>
-                                <select onChange={e => handleOrderByForce(e)} className='Font'>
-                                    <option value="" selected disabled hidden>Sort Force</option>
-                                    <option className='optionsHome' value="force-Asc">FORCE ASC</option>
-                                    <option className='optionsHome' value="force-Desc">FORCE DESC</option>
-                                </select>
-                            </div>
-                            <div id="pokemons" className='Pokemons'>
-                                {
-                                    currentPokemons && currentPokemons.map(p => {
-                                        if (p.types) {
-                                            return (
-                                                <div>
-                                                    <Card name={p.name} types={p.types} img={p.img} id={p.id} />
-                                                </div>
-                                            )
-                                        }
-                                        else if (p.types) {
-                                            let nameDb = p.name;
-                                            let typesDb = [];
-                                            let imgDb = p.image;
-                                            let idDb = p.id;
-                                            p.types.forEach(t => {
-                                                typesDb.push(t.name)
-                                            });
-                                            return (
-                                                <div>
-                                                    <Card name={nameDb} types={typesDb} img={imgDb} id={idDb} />
-                                                </div>
-                                            )
-                                        }
-                                        else {
-                                            return (<h1 className='notFound'>The searched pokemon does not exist!</h1>)
-                                        }
-                                    })
-                                }
-                            </div>
-                        </div>
-                        <Pagination
-                            pokemonsPerPage={pokemonsPerPage}
-                            allPokemons={allPokemons.length}
-                        />
-                    </div>
-                    <div>
-                        {popupState ? (
-                            <PokemonDetail />
-                        ) : ("")}
-
-                    </div>
-                </div>
-            ) :
-                <div className='loadingHome'>
-                    <img className='loadingMew' src="https://media3.giphy.com/media/IQebREsGFRXmo/200.gif" alt="" />
-                    <h2>Completing Pokedex...</h2>
-                </div>
+            
+            
+            <Paginado //renderizamos
+            pokemonsPerPage = {pokemonsPerPage}
+            allpokemon={allpokemon.length} //porque necesito un estado numerico.
+            paginado = {paginado}
+            />
+            {
+                
+                currentPokemons?.map((p)=>{ 
+                    // console.log(p, "HOME----------------")//currentPokemons
+                    // console.log(allpokemon,"allP")
+                    return(
+                        <fragment>
+                   <Link to={"pokemon/" + p.id}>
+                   <Card name={p.name} sprite={p.sprite} types={p.types?.map(t=> t+ " - ")} key={p.id} />
+                   </Link>
+                        </fragment>
+                   )
+               })
             }
         </div>
-    )
-};
+        </body>
+)
+
+
+}
