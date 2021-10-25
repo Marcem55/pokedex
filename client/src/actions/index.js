@@ -1,100 +1,135 @@
-import axios from "axios";
-
-export function getPokemon() {
- // console.log(" a ver getPokemon");
-
-  return async function (dispatch) {
-    var json = await axios.get("http://localhost:3001/pokemon", {}); //va la ruta del back que trae todos los personas. esta es la conexion entre el front y el back
-
-    console.log(json,"json action")
-    console.log(json.data, "json.data action");
-
-    return dispatch({
-      type: "GET_POKEMON", //tipo de accion
-      payload: json.data, // info para actualizar
-    });
-  };
-}
-
-export function filterByType(payload) { //
- console.log(payload, "PAYLOAD DEL ACTION------> VALUE DEL SELECT");
-  return {
-    type: "FILTER_BY_TYPE",
-    payload: payload.toLowerCase(),
-  };
-}
-
-export function sort_AZ(payload) {
-  return {
-    type: "SORT_A_Z",
-    payload,
-  };
-}
-
-export function sort_by_attack(payload) {
-  console.log(payload);
-  return {
-    type: "SORT_BY_ATTACK",
-    payload,
-  };
-}
-
-export function isCreated(payload) {
-  console.log(payload);
-  return {
-    type: "IS_CREATED",
-    payload,
-  };
-}
-
-export function getByName(name) {
-  return async function (dispatch) {
-    try {
-      var json = await axios.get("http://localhost:3001/pokemon?name=" + name);
-      return dispatch({
-        type: "GET_BY_NAME",
-        payload: json.data,
-      });
-    } catch (err) {
-      console.log("Pokemon not found");
-    } 
-  };
-}
-
-export function getTypes() {
-  return async function (dispatch) {
-    try {
-      var theTypes = await axios.get("http://localhost:3001/type");
-      console.log(theTypes,"----------------THETYPES----------------")
-      return dispatch({
-        type: "GET_TYPES",
-        payload: theTypes.data,
-      });
-    } 
-    catch (error) {
-      console.log(error);
+export function fetchApi () {
+    return async function(dispatch) {
+        dispatch({type: "LOADING"});
+        await fetch('http://localhost:3001/pokemons')
+        .then(res => res.json())
+        .then(data => {
+            let items = data.map(e => {
+                return {
+                    id: e.id,
+                    img: e.img,
+                    name: e.name,
+                    attack: e.attack,
+                    types: e.types.join(' ')
+                }
+            })
+            dispatch({type: "ADD_ITEMS", payload: items})
+        })
     }
-  };
-}
+};
 
-export function getByID(id) {
-  return async function (dispatch) {
-    try {
-      var json = await axios.get("http://localhost:3001/pokemon/" + id);
-      console.log(json.data, "JSON DATA ACTION");
-      return dispatch({
-        type: "GET_BY_ID",
-        payload: json.data,
-      });
-    } catch (error) {
-      console.log("Pokemon not found");
+
+export function getName(id) {
+    return function(dispatch) {
+        dispatch({type: "LOADING"});
+        fetch(`http://localhost:3001/pokemons/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                data.types = data.types.join(' ')
+                dispatch({type: "LOAD_POKEMON", payload: data})
+            })
+        }
+};
+
+export function sendData(data) {
+    return async function (dispatch) {
+        await fetch('http://localhost:3001/pokemons',{
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {'Content-Type' : 'application/json'}
+        })
+        .then(res => res.json())
+        .then(data => data.id)
+        .then(data => dispatch({type: "SAVED", payload: data}))
+        .then(() => dispatch(fetchApi()))
     }
-  };
-}
+};
 
-export function postPokemon(payload) { 
-  return async function (dispatch) {
-    const respose = await axios.post("http://localhost:3001/pokemon/", payload);
-    return respose;
-  };
-}
+export function getTypes(){
+    return async function(dispatch){
+        await fetch('http://localhost:3001/types')
+        .then(res => res.json())
+        .then(data => {
+            let types = data.map(({id, name}) => {
+                return {
+                    id,
+                    name: name[0].toUpperCase() + name.slice(1)
+                }
+            })
+            dispatch({type: "ADD_TYPES", payload: types})
+        })
+    }
+};
+
+export function searchName (name) {
+    return function (dispatch) {
+        dispatch(searching());
+        fetch(`http://localhost:3001/pokemons?name=${name}`)
+            .then(res => res.json())
+            .then(data => {
+                dispatch(foundSuccess(data))
+            })
+            .catch(error => {
+                dispatch(foundFailure("Not found"))
+            })
+    }
+};
+
+function searching() {
+    return {
+        type: "SEARCHING"
+    }
+};
+
+function foundSuccess (data) {
+    return {
+        type: "FOUND",
+        payload: data
+    }
+};
+
+function foundFailure (err) {
+    return {
+        type: "NOT_FOUND",
+        payload: err
+    }
+};
+
+export function cleanSearchResult(dispatch) {
+        dispatch({type: "CLEAN"})
+};
+
+export function orderItems(value) {
+    return function(dispatch) {
+        switch (value) {
+            case "A-Z": {
+                dispatch({type: value})
+                return dispatch({type: "A-Z_COMPLETE"})
+            }
+            case "Z-A": {
+                dispatch({type: value})
+                return dispatch({type: "Z-A_COMPLETE"})
+            }
+            case "10-1": {
+                dispatch({type: value})
+                return dispatch({type: "10-1_COMPLETE"})
+                }
+            case "1-10": {
+                dispatch({type: value})
+                return dispatch({type: "1-10_COMPLETE"})
+            }
+            default: dispatch({type: "RESET_ORDER"})
+        }
+    }
+};
+
+export function filterItems(value) {
+    return function(dispatch) {
+        switch (value) {
+            case "created": return dispatch({type: "FILTER_CREATED"})
+            case "existing": return dispatch({type: "FILTER_API"})
+            case "clean": return dispatch({type: "CLEAN_FILTERS"})
+            default: return dispatch({type: "FILTER_TYPE", payload: value.toLowerCase()})
+        }
+    }
+};

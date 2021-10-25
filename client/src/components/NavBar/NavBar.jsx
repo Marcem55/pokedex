@@ -1,20 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './NavBar.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import { pokemonLogo } from "../../helpers/index";
+import "./NavBar.css";
 
 export default function NavBar() {
 
     return (
-        <div className='navContainer'>
-            <Link to='/home' className='logo'>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ9P5FQ52hLD9KM-RFncgcxiOOEUBdHow3YA&usqp=CAU" alt="logo pokeball" />
-                <div className='navTitle'>
-                    <h2>Pokedex</h2>
-                </div>
+        <div className='navbar'>
+            <Link to='/home'>
+                <img 
+                src={pokemonLogo}
+                alt='imagen'
+                width='180px'/>
             </Link>
-            <Link to='/create' className='createLink'>
-                <h2>Create a new Pokemon!</h2>
-            </Link>
+            <Link to='/create'><p id='p'>Create new!</p></Link>
         </div>
     )
 };
