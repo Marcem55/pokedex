@@ -42,7 +42,7 @@ export default function Home() {
                     <h3>No pokemons on this filter</h3>
                     :
                     <>
-                    <div className='showall'>
+                    <div className='allPokemons'>
                     {current.map(({id, name, types, image}) => 
                         <Card
                             key={id}

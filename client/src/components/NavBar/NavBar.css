@@ -3,6 +3,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem;
+    background-color: #FE5858;
+    position: fixed;
+    z-index: 0;
+    width: 100%;
 }
 
 .createLink {
@@ -12,4 +16,10 @@
     border: none;
     text-transform: uppercase;
     font-weight: bold;
+    transition: 1s;
+}
+
+.createLink:hover {
+    font-size: 2rem;
+    transition: 1s;
 }

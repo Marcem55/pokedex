@@ -19,8 +19,9 @@ export default function PokemonDetail ({id}) {
     const loading = useSelector((state) => state.loading);
 
     return(
-        <div className='background'>
+        <div>
             <NavBar />
+        <div className='background'>
             <div id='details_header'>
                 <Link to='/home'><span id='details_btn'> BACK HOME </span></Link>
             </div>
@@ -58,6 +59,7 @@ export default function PokemonDetail ({id}) {
                 </div>
             </div>
         }
+        </div>
         </div>
     )
 };

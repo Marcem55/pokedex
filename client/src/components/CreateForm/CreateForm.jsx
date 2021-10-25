@@ -73,8 +73,9 @@ export default function CreateForm () {
     };
 
     return (
-        <div className='background'>
+        <div>
             <NavBar />
+        <div className='background'>
             <h1>Create your own Pokemon!</h1>
             <div id='form_container' >
             <form onSubmit={onSubmit} name='create_form'>
@@ -166,6 +167,7 @@ export default function CreateForm () {
                 : null
             }
             </div>
+    </div>
     </div>
     )
 };
