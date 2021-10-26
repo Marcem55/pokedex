@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage/LandingPage';
 import Home from './components/Home/Home';
 import CreateForm from './components/CreateForm/CreateForm';
 import PokemonDetail from './components/PokemonDetail/PokemonDetail';
+import './App.css'
 
 export default function App() {
 

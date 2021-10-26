@@ -9,7 +9,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import "./Home.css";
 
 
-export default function Home() { 
+export default function Home({menuOpen, setMenuOpen}) { 
 
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
@@ -33,7 +33,7 @@ export default function Home() {
     return (
         <>
         <div className='home'>
-            <NavBar />
+            <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <SearchBar setCurrentPage={setCurrentPage}/>
             <div id='home_container'>
                 <h3>Find and create any Pokemon!</h3>

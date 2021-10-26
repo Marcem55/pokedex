@@ -10,11 +10,11 @@ export default function Pagination({itemsPerPage, totalPokemons, changePage}) {
     };
 
     return (
-        <div className='paginator'>
+        <div className='pagination'>
                 {pages.map(page => (
                     <button 
                     key={page} 
-                    id="page-item"
+                    className="pages"
                     onClick={() => changePage(page)}
                     >{page}</button>
                 ))}

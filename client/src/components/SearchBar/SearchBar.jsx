@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {cleanSearchResult, filterItems, getTypes, orderItems, searchName} from "../../actions/index";
-import {Link} from "react-router-dom";
+import { cleanSearchResult, filterItems, getTypes, orderItems, searchName } from "../../actions/index";
+import { Link } from "react-router-dom";
 import { fromAtoZ, pokeball } from "../../helpers/index";
 import "./SearchBar.css";
 
@@ -27,55 +27,51 @@ export default function SearchBar({setCurrentPage}) {
     };
 
     return (
-        <div className='searchbar'>
-            <label>Find any!</label>
+        <div className='search_filter_bar'>
             {/* <form> */}
-            <div id='searchdiv'>
+            <div className='searchForm'>
+                <label>Find Pokemon </label>
                 <input
-                id='search_input'
-                type='search'
+                className='searchInput'
+                type='text'
                 value={input}
-                placeholder='Search any Pokemon...'
+                placeholder='Search Pokemon...'
                 autoComplete='off'
                 required
                 onChange={e => validateInput(e.target.value)}
                 />
                 {error ? 
-                <span id='danger'>{error}</span>
+                <span>Pokemon not found</span>
                 : 
-                input ? 
                 <button
-                className='btn'
-                type='button'
-                value='GO'
+                className='searchBtn'
+                value='Search'
                 onClick={() => {dispatch(searchName(input.toLowerCase())); setInput('')}}
-                >GO</button>
-                : null
+                >Search</button>
                 }
-                <div>
-                    {search.loading ? <span>Searching..</span> : null}
-                    {search.notfound !== '' ? <span id='danger'>{search.notfound}</span>
+                <div className='ovHidden'>
+                    {search.loading ? <img style={{width: 50}} src={pokeball}/> : null}
+                    {search.notfound !== '' ? <span>{search.notfound}</span>
                     : null}
                     {
                         pokemon && 
-                        <Link to={`/${pokemon.id}`}>
-                        <img src={pokemon.image} alt={pokemon.name} width='20px'/>
-                        <span onClick={e => dispatch(cleanSearchResult)}> {pokemon.name}</span>
+                        <Link className='no-sub' to={`/${pokemon.id}`}>
+                        <img src={pokemon.image} alt={pokemon.name} width='30px'/>
+                        <span className='searchPokeName' onClick={e => dispatch(cleanSearchResult)}> {pokemon.name}</span>
                         </Link>
                     }
                 </div>
             </div>
             {/* </form> */}
-            <hr />
             <div id='filterdiv'>
                 <form id='filterdiv'>
-                <label>Filter</label>
+                <label>Filter </label>
                     <select 
-                    id='order_filter'
+                    className='selectFilter'
                     data-default-value='choose'
                     onChange={e => {dispatch(filterItems(e.target.value)); setCurrentPage(1)}}>
                         <option value='choose'>Choose option</option>
-                        <optgroup label='By Creator' selected>
+                        <optgroup label='By Origin' selected>
                             <option value="created">Created Pokemons</option>
                             <option value="existing">Existing Pokemons</option>
                         </optgroup>
@@ -91,7 +87,7 @@ export default function SearchBar({setCurrentPage}) {
                         </optgroup>
                     </select>
 
-                    <label>Order</label>
+                    <label>Order </label>
                     <select 
                     id='order_filter'
                     data-default-value='choose'
@@ -99,7 +95,7 @@ export default function SearchBar({setCurrentPage}) {
                         dispatch(orderItems(e.target.value))
                         setCurrentPage(1)}}>
                     <option value='choose'>Choose option</option>
-                        <optgroup label='Alphabetic Name'>
+                        <optgroup label='By Name'>
                             <option value="A-Z">A-Z</option>
                             <option value="Z-A">Z-A</option>
                         </optgroup>
@@ -109,12 +105,10 @@ export default function SearchBar({setCurrentPage}) {
                         </optgroup>
                     </select>
                     <input type='reset' 
-                    className='btn' 
+                    className='resetBtn' 
                     value='Reset' 
                     onClick={(e) => {dispatch({type:"CLEAN_FILTERS"}); setCurrentPage(1);}} />
                 </form>
-                <hr />
-                {/* <img src={pokeball} alt="pokeball" width='100px'/> */}
             </div>
         </div>
     )

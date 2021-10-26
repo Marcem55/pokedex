@@ -9,6 +9,15 @@
     width: 100%;
 }
 
+.openSearchBar {
+    align-self: flex-end;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: .6rem;
+    cursor: pointer;
+}
+
 .createLink {
     background-color: transparent;
     padding: 1rem;
@@ -16,10 +25,10 @@
     border: none;
     text-transform: uppercase;
     font-weight: bold;
-    transition: 1s;
+    transition: .5s;
 }
 
 .createLink:hover {
     font-size: 2rem;
-    transition: 1s;
+    transition: .5s;
 }

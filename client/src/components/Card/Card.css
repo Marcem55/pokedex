@@ -15,17 +15,21 @@
     -webkit-box-shadow: 0px 5px 15px 0px rgba(128,128,128,0.45);
     -moz-box-shadow: 0px 5px 15px 0px rgba(128,128,128,0.45);
     box-shadow: 0px 5px 15px 0px rgba(128,128,128,0.45);
-    transition: 1s;
+    transition: .3s;
 }
 
 .card:hover {
     width: 275px;
     height: 320px;
-    transition: 1s;
+    transition: .3s;
 }
 
 .pokeImg {
     height: 200px;
+}
+
+.ovHidden {
+    overflow: hidden;
 }
 
 p {

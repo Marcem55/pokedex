@@ -1,6 +1,64 @@
-.searchbar {
-    margin-top: 90px;
+.search_filter_bar {
+    margin-top: 89px;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    padding: 1.5rem;
+    background-color: #FE5858;
+    border-top: 1px solid black;
+    position: fixed;
+    z-index: 0;
+    width: 100%;
+}
+
+label {
+    font-weight: 700;
+}
+
+input {
+    /* background-color: transparent; */
+    border: .5px solid;
+    padding: .6rem;
+}
+input::placeholder {
+    color: darkgray;
+}
+input:focus {
+    outline: none;
+}
+
+.searchBtn {
+    padding: .6rem;
+    margin-left: 1rem;
+    background-color: #272323;
+    color: #FE5858;
+    border: none;
+    cursor: pointer;
+}
+
+.searchPokeName {
+    color: #000000;
+    text-transform: capitalize;
+}
+
+.no-sub {
+    text-decoration: none;
+}
+
+select {
+    padding: .6rem;
+    margin-right: 1rem;
+    border: .5px solid;
+}
+
+select:focus {
+    outline: none;
+}
+
+.resetBtn {
+    padding: .7rem;
+    background-color: #272323;
+    color: #FE5858;
+    border: none;
+    cursor: pointer;
 }

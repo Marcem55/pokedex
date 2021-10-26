@@ -1,0 +1,22 @@
+.pagination {
+    background-color: #FE5858;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.pages {
+    background-color: #272323;
+    color: #FE5858;
+    border: none;
+    padding: 1rem;
+    margin-left: .5rem;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.pages:hover {
+    background-color: #FFFFFF;
+    color: black;
+    transition: .5s;
+}
