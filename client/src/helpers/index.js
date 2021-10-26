@@ -29,7 +29,7 @@ export function createJson(data1, data2) {
 
 export const newPokemon = {
     name: "",
-    hp: 1,
+    life: 1,
     attack: 1,
     defense: 1,
     speed: 1,
@@ -49,11 +49,11 @@ for(var i=1; i<101; i++) {
     nums.push(i)
 };
 
-export const attributes = ['Hp', 'Attack', 'Defense', 'Speed', 'Height', 'Weight'];
+export const attributes = ['Life', 'Attack', 'Defense', 'Speed', 'Height', 'Weight'];
 
 export const validURL = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/gi;
 
-export const imageLoading = 'https://images.chesscomfiles.com/uploads/v1/group/76962.73d2aef4.50x50o.05adf4794fcc.gif';
+export const imageLoading = 'https://media2.giphy.com/media/XN88vs2jKnmdW/200.webp?cid=ecf05e47k763rlkox09wjnb5qefvaod13sospw74pm947u2z&rid=200.webp&ct=g';
 
 export const pokemonLogo = 'https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg';
 

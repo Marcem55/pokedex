@@ -14,11 +14,11 @@ export default function CreateForm () {
     }, [dispatch]);
     
     const totalNames = useSelector((state) => state.pokemons.map(e => e.name));
-    const types = useSelector((state) => state.types.sort(fromAtoZ))
+    const types = useSelector((state) => state.types)
     const createdOK = useSelector((state) => state.pokemonCreated.result)
     const id = useSelector((state) => state.pokemonCreated.id)
 
-    const [Input, setInput] = useState(newPokemon);
+    const [input, setInput] = useState(newPokemon);
     const [_types, setTypes] = useState([]);
     const [error, setError] = useState('');
     const [errortype, setErrortype] = useState('');
@@ -29,27 +29,27 @@ export default function CreateForm () {
     function validateName(e) {
         if(!/^[A-Za-z0-9_-]*$/.test(e)) {
             setError('Only alphanumeric characters, no specials or spaces')
-        } else if(e.length<4){
+        } else if(e.length < 4){
             setError('Minimum 4 characters')
-        } else if(e.length>10){
-            setError('Maximum 10 characters')
+        } else if(e.length > 12){
+            setError('Maximum 12 characters')
         } else if (totalNames.includes(e)){
             setError('The name is not available')
         } else {
             setError('')
             setAvailable('Name available')
         }
-        setInput({...Input, name: e})
+        setInput({...input, name: e})
     };
 
     function validateUrl(e) {
         if(!validURL.test(e)) {setErrorurl('Enter a valid image URL')}
         else {setErrorurl('')}
-        setInput({...Input, img: e})
+        setInput({...input, img: e})
     }
 
     function inputChange (e) {
-        setInput({...Input, [e.target.name]: parseInt(e.target.value)});
+        setInput({...input, [e.target.name]: parseInt(e.target.value)});
     };
 
     function selectType(e) {
@@ -66,7 +66,7 @@ export default function CreateForm () {
         e.preventDefault()
         if(error || errorurl) return alert('Please fix the form');
         if(_types.length === 0) return setErrortype('You must choose a type');
-        dispatch(sendData(createJson(Input, _types)));
+        dispatch(sendData(createJson(input, _types)));
         setInput(newPokemon)
         setAvailable('')
         cleanCheckbox();
@@ -77,16 +77,16 @@ export default function CreateForm () {
             <NavBar />
         <div className='background'>
             <h1>Create your own Pokemon!</h1>
-            <div id='form_container' >
-            <form onSubmit={onSubmit} name='create_form'>
-                    <label>Name*</label>
+            <div className='formContainer' >
+            <form className='form' onSubmit={onSubmit} name='create_form'>
+                    <label>Name</label>
                     <input
-                        id='form'
+                        className='formInput'
                         name='name'
                         type='text'
                         placeholder='Enter name...'
                         autoComplete='off'
-                        value={Input.name}
+                        value={input.name}
                         onChange={e => validateName(e.target.value)}
                         required />
                     {error ? <span id='danger'>{error}</span> :
@@ -94,46 +94,40 @@ export default function CreateForm () {
                     <div id='attributes'> 
                     {
                         attributes.map(e =>(
-                            <div key={e}>
+                            <div className='statsInputs' key={e}>
                                 <label>{e}</label>
-                                <select name={e.toLowerCase()} 
+                                <input name={e.toLowerCase()} 
+                                        type='number'
                                         key={e}
                                         id={e}
                                         onChange={e=>inputChange(e)}>
-                                    {
-                                        nums.map(e=> 
-                                        <option
-                                        key={e}
-                                        value={e}
-                                        >{e}</option> )
-                                    }
-                                </select>
+                                </input>
                             </div>
                             
                         ))
                     }
                     </div>
 
-                    <label>URL Image (optional) </label>
+                    <label>Image (optional) </label>
                     <input
-                        id='form'
+                        className='formInput'
                         name='img'
-                        type='link'
+                        type='url'
                         placeholder='Enter image link...'
                         autoComplete='off'
-                        value={Input.img}
+                        value={input.img}
                         onChange={e => validateUrl(e.target.value)} />
                     {errorurl ? <span id='danger'>{errorurl}</span> : null}
 
                     <div id='container_types'>
-                        <b>Select type/s *</b>
+                        <b>Select type/s</b>
                         <div id='types'>
                         {
                             types.map(e => (
                                 <div key={e.id} 
                                     id='form_unit'>
                                     <input
-                                    id='type_checkbox'
+                                    className='typeCheckbox'
                                     type="checkbox"
                                     value={e.id}
                                     onClick={e => selectType(e.target.value)}
@@ -145,7 +139,6 @@ export default function CreateForm () {
                         </div>
                     </div>
                     {errortype ? <span id='danger'>{errortype}</span>:null}
-                    <p>Items marked as * are required</p>
                     {
                         createdOK ? null :
                         <button 

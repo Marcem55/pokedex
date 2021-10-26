@@ -15,7 +15,7 @@ export default function PokemonDetail ({id}) {
         dispatch({type: "CLEAN_RESULT"})
     }, [dispatch, id]);
     
-    const found = useSelector((state) => state.pokemonLoaded);
+    const foundPoke = useSelector((state) => state.pokemonLoaded);
     const loading = useSelector((state) => state.loading);
 
     return(
@@ -34,27 +34,28 @@ export default function PokemonDetail ({id}) {
             <div className='detailCard'>
                 <div>
                     <div className='detImgNameType'>
-                        <img src={found.image} alt={found.name} className='imgDetail'/>
+                        <img src={foundPoke.image} alt={foundPoke.name} className='imgDetail'/>
                         <div className='nameType'>
-                            <h1>{found.name}</h1>
-                            Type/s<h3>{found.types}</h3>
+                            <h1>{foundPoke.name}</h1>
+                            <h3>Type</h3>
+                            <h4>{foundPoke.types}</h4>
                         </div>
                     </div>
                     <div className='detStats'>
                         <span>ID</span>
-                        <span>{found.id}</span>
-                        <span>HP</span>
-                        <span>{found.hp}</span>
-                        <span>SPEED</span>
-                        <span>{found.speed}</span>
+                        <span>LIFE</span>
                         <span>ATTACK</span>
-                        <span>{found.attack}</span>
                         <span>DEFENSE</span>
-                        <span>{found.defense}</span>
+                        <span>SPEED</span>
                         <span>HEIGHT</span>
-                        <span>{found.height}</span>
                         <span>WEIGHT</span>
-                        <span>{found.weight}</span>
+                        <span>{foundPoke.id}</span>
+                        <span>{foundPoke.hp}</span>
+                        <span>{foundPoke.attack}</span>
+                        <span>{foundPoke.defense}</span>
+                        <span>{foundPoke.speed}</span>
+                        <span>{foundPoke.height}</span>
+                        <span>{foundPoke.weight}</span>
                     </div>
                 </div>
             </div>

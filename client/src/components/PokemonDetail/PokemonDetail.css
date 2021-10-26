@@ -58,12 +58,16 @@
     padding-bottom: 1rem;
 }
 
-.nameType h1, h3{
+.nameType h1, h3, h4{
     overflow: hidden;
     text-transform: capitalize;
     padding-left: 3rem;
+    padding-bottom: 2rem;
 }
 
 .detStats {
     overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem;
 }
