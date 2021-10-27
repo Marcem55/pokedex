@@ -2,7 +2,7 @@ import React, { useEffect, useState} from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { Link } from "react-router-dom";
 import { getTypes, sendData } from "../../actions/index";
-import { createJson, fromAtoZ, newPokemon, nums, attributes, cleanCheckbox, validURL } from "../../helpers/index";
+import { createJson, newPokemon, attributes, cleanCheckbox, validURL, attributesValues } from "../../helpers/index";
 import NavBar from "../NavBar/NavBar";
 import "./CreateForm.css";
 
@@ -18,7 +18,7 @@ export default function CreateForm () {
     const createdOK = useSelector((state) => state.pokemonCreated.result)
     const id = useSelector((state) => state.pokemonCreated.id)
 
-    const [input, setInput] = useState(newPokemon);
+    const [Input, setInput] = useState(newPokemon);
     const [_types, setTypes] = useState([]);
     const [error, setError] = useState('');
     const [errortype, setErrortype] = useState('');
@@ -39,17 +39,17 @@ export default function CreateForm () {
             setError('')
             setAvailable('Name available')
         }
-        setInput({...input, name: e})
+        setInput({...Input, name: e})
     };
 
     function validateUrl(e) {
         if(!validURL.test(e)) {setErrorurl('Enter a valid image URL')}
         else {setErrorurl('')}
-        setInput({...input, img: e})
+        setInput({...Input, image: e})
     }
 
     function inputChange (e) {
-        setInput({...input, [e.target.name]: parseInt(e.target.value)});
+        setInput({...Input, [e.target.name]: parseInt(e.target.value)});
     };
 
     function selectType(e) {
@@ -66,7 +66,7 @@ export default function CreateForm () {
         e.preventDefault()
         if(error || errorurl) return alert('Please fix the form');
         if(_types.length === 0) return setErrortype('You must choose a type');
-        dispatch(sendData(createJson(input, _types)));
+        dispatch(sendData(createJson(Input, _types)));
         setInput(newPokemon)
         setAvailable('')
         cleanCheckbox();
@@ -76,7 +76,7 @@ export default function CreateForm () {
         <div>
             <NavBar />
         <div className='background'>
-            <h1>Create your own Pokemon!</h1>
+            <h1 className='formTitle'>Create a Pokemon!</h1>
             <div className='formContainer' >
             <form className='form' onSubmit={onSubmit} name='create_form'>
                     <label>Name</label>
@@ -86,22 +86,29 @@ export default function CreateForm () {
                         type='text'
                         placeholder='Enter name...'
                         autoComplete='off'
-                        value={input.name}
+                        value={Input.name}
                         onChange={e => validateName(e.target.value)}
                         required />
-                    {error ? <span id='danger'>{error}</span> :
-                    available ? <span id='created'>{available}</span> : null}
-                    <div id='attributes'> 
+                    {error ? <span className='danger'>{error}</span> :
+                    available ? <span className='succes'>{available}</span> : null}
+                    <div className='stats'> 
                     {
                         attributes.map(e =>(
                             <div className='statsInputs' key={e}>
                                 <label>{e}</label>
-                                <input name={e.toLowerCase()} 
+                                <select name={e.toLowerCase()} 
                                         type='number'
                                         key={e}
                                         id={e}
                                         onChange={e=>inputChange(e)}>
-                                </input>
+                                        {attributesValues.map(e => 
+                                            <option
+                                                className='optionColor'
+                                                key={e}
+                                                value={e}
+                                            ></option>
+                                        )}
+                                </select>
                             </div>
                             
                         ))
@@ -111,21 +118,20 @@ export default function CreateForm () {
                     <label>Image (optional) </label>
                     <input
                         className='formInput'
-                        name='img'
+                        name='image'
                         type='url'
                         placeholder='Enter image link...'
                         autoComplete='off'
-                        value={input.img}
+                        value={Input.image}
                         onChange={e => validateUrl(e.target.value)} />
-                    {errorurl ? <span id='danger'>{errorurl}</span> : null}
+                    {errorurl ? <span className='danger'>{errorurl}</span> : null}
 
-                    <div id='container_types'>
-                        <b>Select type/s</b>
-                        <div id='types'>
+                        <label className='typesTitle'>Select type/s</label>
+                    <div className='typesContainer'>
                         {
                             types.map(e => (
                                 <div key={e.id} 
-                                    id='form_unit'>
+                                    className='eachType'>
                                     <input
                                     className='typeCheckbox'
                                     type="checkbox"
@@ -136,13 +142,12 @@ export default function CreateForm () {
                                 </div>
                             ))
                         }
-                        </div>
                     </div>
-                    {errortype ? <span id='danger'>{errortype}</span>:null}
+                    {errortype ? <span className='danger'>{errortype}</span>:null}
                     {
                         createdOK ? null :
                         <button 
-                        className='btn'
+                        className='formBtn'
                         type='submit'
                         >Create!</button>
                     }

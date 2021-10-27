@@ -35,8 +35,8 @@ export default function Home({menuOpen, setMenuOpen}) {
         <div className='home'>
             <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <SearchBar setCurrentPage={setCurrentPage}/>
-            <div id='home_container'>
-                <h3>Find and create any Pokemon!</h3>
+            <div className='homeContainer'>
+                <h3>Find and create Pokemons!</h3>
                 {loading ? <><img src={imageLoading} alt="loading" width='400'/></>
                     : pokemons.length === 0 ?
                     <h3>No pokemons on this filter</h3>

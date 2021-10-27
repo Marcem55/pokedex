@@ -7,13 +7,14 @@
 }
 
 .formContainer {
-    background-color: #FE5858;
+    background-color: #272323;
     padding: 2rem;
     border-radius: 6px;
     -webkit-box-shadow: 0px 5px 15px 0px rgba(128,128,128,0.45);
     -moz-box-shadow: 0px 5px 15px 0px rgba(128,128,128,0.45);
     box-shadow: 0px 5px 15px 0px rgba(128,128,128,0.45);
     margin: 0 2rem;
+    margin-bottom: 2rem;
 }
 
 .form {
@@ -22,7 +23,76 @@
     padding: 1.5rem;
 }
 
-.statsInputs {
-    
+.formTitle {
+    overflow: hidden;
+}
 
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 3rem;
+}
+
+label {
+    text-align: center;
+    padding-bottom: 1rem;
+    color: #FE5858;
+}
+
+.statsInputs {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.optionColor {
+    color: black;
+}
+
+.danger {
+    color: #FE5858;
+    font-size: 15px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.succes {
+    color: lightgreen;
+    font-size: 15px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.typesTitle {
+    padding: 1rem 0 3rem 0;
+}
+
+.typesContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    padding-bottom: 2rem;
+}
+
+.eachType {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    color: #FE5858;
+}
+
+.formBtn {
+    padding: .6rem;
+    font-weight: 700;
+    margin-left: 1rem;
+    color: #3f3b3b;
+    background-color: #FE5858;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.formBtn:hover {
+    background-color: #f36666;
 }

@@ -35,21 +35,20 @@ export const newPokemon = {
     speed: 1,
     height: 1,
     weight: 1,
-    img: "",
-    types: ""
+    image: "",
+    types: []
 };
 
 export const redirect = (id) => {
     window.location.href = `/${id}`;
 };
 
-export const nums = [];
-
-for(var i=1; i<101; i++) {
-    nums.push(i)
-};
-
 export const attributes = ['Life', 'Attack', 'Defense', 'Speed', 'Height', 'Weight'];
+
+export const attributesValues = [];
+for(var i = 1 ; i <= 100 ; i++) {
+    attributesValues.push(i);
+}
 
 export const validURL = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/gi;
 

@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       validate: { isUrl: true},
       // defaultValue: 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1567790451l/50866301._SX318_SY475_.jpg'
-      defaultValue: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDZa4Qlw_qHWkOdJJ9g9f-xVI0ZceTX0LF-Q&usqp=CAU'
+      defaultValue: 'https://img.icons8.com/color/2x/pokeball-2.png'
     },
     life: {
       type: DataTypes.INTEGER

@@ -1,5 +1,11 @@
-.allPokemons {
+.homeContainer {
     margin-top: 178px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.allPokemons {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
